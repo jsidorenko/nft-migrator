@@ -12,7 +12,6 @@
     "prettier": "3.0.0"
   },
   "scripts": {
-    "network-info": "node ./scripts/network-info.js",
     "generate-account": "node ./scripts/generate-account.js",
     "generate-sigs:all": "node ./scripts/generate-offchain-sigs.js",
     "generate-sigs:unclaimed-only": "cross-env UNCLAIMED=1 node ./scripts/generate-offchain-sigs.js"
