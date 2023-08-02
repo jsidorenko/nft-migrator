@@ -3,7 +3,8 @@ const { Keyring } = require('@polkadot/keyring');
 const { ApiPromise, WsProvider } = require('@polkadot/api');
 const { u8aToHex } = require('@polkadot/util');
 
-require('dotenv').config();
+const env = {};
+require('dotenv').config({ processEnv: env });
 
 function logJson(obj) {
   console.log(obj?.toJSON ? obj?.toJSON() : obj);
@@ -28,8 +29,8 @@ class BitFlags {
 }
 
 async function connect() {
-  const { SIGNER_MNEMONIC = '', NETWORK = '' } = process.env;
-  const rpc = process.env[`${NETWORK.toUpperCase()}_NODE_ENDPOINT`];
+  const { SIGNER_MNEMONIC = '', NETWORK = '' } = env;
+  const rpc = env[`${NETWORK.toUpperCase()}_NODE_ENDPOINT`];
   const mnemonic = SIGNER_MNEMONIC;
 
   if (!rpc) {
@@ -94,8 +95,8 @@ async function main() {
   const { api, keyring, signingPair } = await connect();
 
   // get the collection ids
-  const sourceCollection = process.env.UNIQUES_COLLECTON_ID;
-  const targetCollection = process.env.NFTS_COLLECTON_ID;
+  const sourceCollection = env.UNIQUES_COLLECTON_ID;
+  const targetCollection = env.NFTS_COLLECTON_ID;
 
   // load the main info + metadata
   const [sourceCollectionDetails, sourceCollectionMetadata, targetCollectionDetails, targetCollectionMetadata] =
@@ -143,7 +144,7 @@ async function main() {
   );
 
   let signSourceNfts = [...sourceNfts];
-  if (process.env.UNCLAIMED === '1') {
+  if (env.UNCLAIMED === '1') {
     // load all the claimed nfts
     const claimedNfts = await api.query.nfts.item
       .keys(targetCollection)
