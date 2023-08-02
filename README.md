@@ -47,6 +47,7 @@ JSON file's structure:
 	"date": 1690990519099,
 	"sourceCollection": "0",
 	"targetCollection": "0",
+    "signer": "5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL",
 	"signatures": [
 		{
 			"data": "0x00000000020000000000011cbd2d43530a44705ad088af313e18f80b53ef16b36177cd4b77b846f2a5f07c0cf9500000",

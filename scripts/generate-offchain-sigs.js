@@ -77,12 +77,13 @@ async function signItems(api, signingPair, signSourceNfts, metadata, targetColle
   return sigs;
 }
 
-function storeSignatures(signatures, runtimeVersion, sourceCollection, targetCollection) {
+function storeSignatures(signatures, signer, runtimeVersion, sourceCollection, targetCollection) {
   const data = {
     runtimeVersion,
     date: +new Date(),
     sourceCollection,
     targetCollection,
+    signer,
     signatures,
   };
   fs.writeFileSync(
@@ -167,7 +168,7 @@ async function main() {
   console.info(`+ Signatures created`);
 
   const runtimeVersion = api.runtimeVersion.specVersion.toPrimitive();
-  storeSignatures(sigs, runtimeVersion, sourceCollection, targetCollection);
+  storeSignatures(sigs, signingPair.address, runtimeVersion, sourceCollection, targetCollection);
   console.info(`Done!`);
 }
 
