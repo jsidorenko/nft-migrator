@@ -36,6 +36,33 @@ Create the offchain signatures for *unclaimed* items within the `UNIQUES_COLLECT
 $ npm run generate-sigs:unclaimed-only
 ```
 
+## Output
+
+After running a script the new json file will be generated and placed into the `data` folder.  
+JSON file's structure:
+
+```json
+{
+	"runtimeVersion": 268,
+	"date": 1690990519099,
+	"sourceCollection": "0",
+	"targetCollection": "0",
+	"signatures": [
+		{
+			"data": "0x00000000020000000000011cbd2d43530a44705ad088af313e18f80b53ef16b36177cd4b77b846f2a5f07c0cf9500000",
+			"signature": "0x123123"
+		}
+	]
+}
+```
+
+### Life hack
+The `data` field inside the `signature` object is an encoded version of the `PalletNftsPreSignedMint` object
+which is safe to pass via URL, and it's possible to reconstruct the initial object in this way:
+```javascript
+const preSignedMint = api.createType('PalletNftsPreSignedMint', data);
+console.log(preSignedMint.toJSON());
+```
 
 ## License
 
