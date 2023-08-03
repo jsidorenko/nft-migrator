@@ -1,16 +1,19 @@
-const { mnemonicToMiniSecret, mnemonicGenerate } = require('@polkadot/util-crypto');
+const { mnemonicToMiniSecret } = require('@polkadot/util-crypto');
 const { cryptoWaitReady } = require('@polkadot/util-crypto');
 const { u8aToHex } = require('@polkadot/util');
 const { Keyring } = require('@polkadot/keyring');
 
+const env = {};
+require('dotenv').config({ processEnv: env });
+
 async function main() {
   await cryptoWaitReady();
 
-  const mnemonic = mnemonicGenerate();
-  console.log(`Mnemonic: ${mnemonic}`);
-  console.log(``);
-  const privateKey = mnemonicToMiniSecret(mnemonic);
-  console.log(`Private key: ${u8aToHex(privateKey)}`);
+  const { SIGNER_MNEMONIC = '' } = env;
+  const mnemonic = SIGNER_MNEMONIC;
+  if (!mnemonic) {
+    throw new Error('No signer`s mnemonic provided');
+  }
 
   const keyring = new Keyring({ type: 'sr25519' });
   const pair = keyring.createFromUri(mnemonic);

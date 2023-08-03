@@ -79,6 +79,7 @@ async function signItems(api, signingPair, signSourceNfts, metadata, targetColle
 
 function storeSignatures(signatures, signer, runtimeVersion, sourceCollection, targetCollection) {
   const data = {
+    type: 'uniques-to-nfts-migration',
     runtimeVersion,
     date: +new Date(),
     sourceCollection,
@@ -98,6 +99,7 @@ async function main() {
   // get the collection ids
   const sourceCollection = env.UNIQUES_COLLECTON_ID;
   const targetCollection = env.NFTS_COLLECTON_ID;
+  const signerAddress = keyring.encodeAddress(signingPair.publicKey, api.registry.chainSS58);
 
   // load the main info + metadata
   const [sourceCollectionDetails, sourceCollectionMetadata, targetCollectionDetails, targetCollectionMetadata] =
@@ -120,7 +122,7 @@ async function main() {
 
   // validate the provided account has Admin/Issuer rights
   const roles = new BitFlags(['Issuer', 'Freezer', 'Admin']);
-  const accountRoles = (await api.query.nfts.collectionRoleOf(targetCollection, signingPair.address))
+  const accountRoles = (await api.query.nfts.collectionRoleOf(targetCollection, signerAddress))
     .unwrapOrDefault()
     .toNumber();
 
@@ -168,7 +170,7 @@ async function main() {
   console.info(`+ Signatures created`);
 
   const runtimeVersion = api.runtimeVersion.specVersion.toPrimitive();
-  storeSignatures(sigs, signingPair.address, runtimeVersion, sourceCollection, targetCollection);
+  storeSignatures(sigs, signerAddress, runtimeVersion, sourceCollection, targetCollection);
   console.info(`Done!`);
 }
 

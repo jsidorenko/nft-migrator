@@ -22,7 +22,7 @@ Fill in the .env file with the required data:
 - `NFTS_COLLECTON_ID` - a collection ID in the `pallet-nfts`
 - `SIGNER_MNEMONIC` - a mnemonic phrase of the account that will create offchain signatures.
 This account needs to have an `Admin` and an `Issuer` roles within specified `NFTS_COLLECTON_ID`  
-You can generate one by running `npm run generate-account`
+You can generate one by running `npm run generate-account`.
 
 ## Usage
 
@@ -31,7 +31,7 @@ Create the offchain signatures for all the items within the `UNIQUES_COLLECTON_I
 $ npm run generate-sigs:all
 ```
 
-Create the offchain signatures for *unclaimed* items within the `UNIQUES_COLLECTON_ID`
+Create the offchain signatures for **unclaimed** items within the `UNIQUES_COLLECTON_ID`
 ```bash
 $ npm run generate-sigs:unclaimed-only
 ```
@@ -43,6 +43,7 @@ JSON file's structure:
 
 ```json
 {
+    "type": "uniques-to-nfts-migration",
 	"runtimeVersion": 268,
 	"date": 1690990519099,
 	"sourceCollection": "0",
@@ -64,6 +65,9 @@ which is safe to pass via URL, and it's possible to reconstruct the initial obje
 const preSignedMint = api.createType('PalletNftsPreSignedMint', data);
 console.log(preSignedMint.toJSON());
 ```
+
+## Helpers
+- `npm run inspect-signer` - shows the signer's public address 
 
 ## License
 
