@@ -5,8 +5,10 @@
   "author": "jsidorenko",
   "license": "MIT",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.383.0",
     "@polkadot/api": "10.9.1",
     "@polkadot/util-crypto": "12.3.2",
+    "aws-sdk": "^2.1429.0",
     "cross-env": "7.0.3",
     "dotenv": "16.3.1",
     "prettier": "3.0.0"
@@ -15,6 +17,7 @@
     "generate-account": "node ./scripts/generate-account.js",
     "generate-sigs:all": "node ./scripts/generate-offchain-sigs.js",
     "generate-sigs:unclaimed-only": "cross-env UNCLAIMED=1 node ./scripts/generate-offchain-sigs.js",
-    "inspect-signer": "node ./scripts/inspect-signer.js"
+    "inspect-signer": "node ./scripts/inspect-signer.js",
+    "upload-to-ipfs": "node ./scripts/upload-to-ipfs.js"
   }
 }

@@ -1,4 +1,3 @@
-const { mnemonicToMiniSecret } = require('@polkadot/util-crypto');
 const { cryptoWaitReady } = require('@polkadot/util-crypto');
 const { u8aToHex } = require('@polkadot/util');
 const { Keyring } = require('@polkadot/keyring');
