@@ -47,7 +47,8 @@ async function main() {
   console.log('');
   console.log('Filename', filename);
   console.log('CID', response.Metadata?.cid);
-  console.log(`https://dweb.link/ipfs/${response.Metadata?.cid}/`);
+  console.log(`https://ipfs.filebase.io/ipfs/${response.Metadata?.cid}`);
+  console.log(`https://dweb.link/ipfs/${response.Metadata?.cid}`);
 }
 
 main()
