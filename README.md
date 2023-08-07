@@ -2,12 +2,16 @@
 
 ## Description
 
-NFT migrator helps to migrate the NFTs from the old Uniques pallet to the new NFTs pallet.
-The migration process consists of multiple steps:
-1) a new collection's creation in the nfts pallet using the same account that owns the old collection
-2) setting the same collection metadata as in the old collection
-3) taking a snapshot of the existing nfts and pre-signing them using the admin's/issuer's account by using this script 
+A set of tools to automate migrating NFTs from the old Uniques pallet to the new NFTs pallet.
 
+The migration process consists of multiple steps:
+1) create a new collection in the nfts pallet using the same account that owns the old collection
+2) a metadata of both collections should be equal
+3) take a snapshot of the existing nfts and pre-sign them using the admin's/issuer's account
+4) a generated JSON file needs to be uploaded to IPFS
+5) store the hash of the generated JSON file in collection's attributes
+
+Use this scripts to automate the 3-5 steps for the above.
 
 ## Installation
 
@@ -22,7 +26,8 @@ Fill in the .env file with the required data:
 - `NFTS_COLLECTON_ID` - a collection ID in the `pallet-nfts`
 - `SIGNER_MNEMONIC` - a mnemonic phrase of the account that will create offchain signatures.
 This account needs to have an `Admin` and an `Issuer` roles within specified `NFTS_COLLECTON_ID`  
-You can generate one by running `npm run generate-account`.
+You can generate a new one by running `npm run generate-account`.
+- `FILEBASE_*` - we use a Filebase.com service to store the files on IPFS. A free account on that service will be sufficient.
 
 ## Usage
 
@@ -36,7 +41,23 @@ Create the offchain signatures for **unclaimed** items within the `UNIQUES_COLLE
 $ npm run generate-sigs:unclaimed-only
 ```
 
-## Output
+Upload the generated file to IPFS
+```bash
+$ npm run upload-to-ipfs
+```
+
+Store file's IPFS hash in collection's attributes.
+It's recommended to store that information inside the original collection in the uniques pallet.
+```bash
+$ npm run store-in-uniques-attributes
+```
+
+In a case, the original collection is locked, it's possible to store the same information in the derivative collection.
+```bash
+$ npm run store-in-nfts-attributes
+```
+
+## Generated file's structure
 
 After running a script the new json file will be generated and placed into the `data` folder.  
 JSON file's structure:
@@ -68,6 +89,7 @@ console.log(preSignedMint.toJSON());
 
 ## Helpers
 - `npm run inspect-signer` - shows the signer's public address 
+- `npm run inspect-generated-json` - shows the generated file's name and IPFS hash 
 
 ## License
 
