@@ -56,7 +56,7 @@ async function main() {
   // validate the provided account has permissions to update the attributes
   if (pallet === 'uniques') {
     if (!sourceCollectionDetails.owner.eq(signerAddress))
-      throw new Error('The provided account should be an owner of the source collection');
+      throw new Error('The provided account should be the owner of the source collection');
 
     if (sourceCollectionMetadata?.isFrozen.eq(true))
       throw new Error('The source collection is frozen, no new attributes can be added');
