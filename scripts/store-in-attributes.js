@@ -89,7 +89,7 @@ async function main() {
   const attribute_cid_key = 'offchain-mint';
   const attribute_cid_value = `ipfs://ipfs/${cid}`;
   const attribute_provider_key = 'offchain-mint-ipfs-provider';
-  const attribute_provider_value = 'filebase';
+  const attribute_provider_value = env.IPFS_GATEWAY ?? 'filebase';
   if (pallet === 'uniques') {
     txs.push(api.tx.uniques.setAttribute(sourceCollection, null, attribute_cid_key, attribute_cid_value));
     txs.push(api.tx.uniques.setAttribute(sourceCollection, null, attribute_provider_key, attribute_provider_value));
