@@ -20,6 +20,8 @@
     "generate-sigs:unclaimed-only": "cross-env UNCLAIMED=1 node ./scripts/generate-offchain-sigs.js",
     "inspect-signer": "node ./scripts/inspect-signer.js",
     "upload-to-ipfs": "node ./scripts/upload-to-ipfs.js",
-    "inspect-generated-json": "node ./scripts/inspect-generated-json.js"
+    "inspect-generated-json": "node ./scripts/inspect-generated-json.js",
+    "store-in-uniques-attributes": "cross-env PALLET=uniques node ./scripts/store-in-attributes.js",
+    "store-in-nfts-attributes": "cross-env PALLET=nfts node ./scripts/store-in-attributes.js"
   }
 }

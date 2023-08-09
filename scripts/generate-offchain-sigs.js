@@ -2,31 +2,10 @@ const fs = require('fs');
 const { Keyring } = require('@polkadot/keyring');
 const { ApiPromise, WsProvider } = require('@polkadot/api');
 const { u8aToHex } = require('@polkadot/util');
+const { BitFlags } = require('./common');
 
 const env = {};
 require('dotenv').config({ processEnv: env });
-
-function logJson(obj) {
-  console.log(obj?.toJSON ? obj?.toJSON() : obj);
-}
-
-class BitFlags {
-  flags;
-
-  constructor(options) {
-    this.flags = options.reduce(
-      (memo, value, i) => ({
-        [value]: 1 << i,
-        ...memo,
-      }),
-      {},
-    );
-  }
-
-  has(checkFlag, value) {
-    return (value & this.flags[checkFlag]) === this.flags[checkFlag];
-  }
-}
 
 async function connect() {
   const { SIGNER_MNEMONIC = '', NETWORK = '' } = env;
