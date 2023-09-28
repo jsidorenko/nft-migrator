@@ -1,9 +1,8 @@
 const fs = require('fs');
 const { Keyring } = require('@polkadot/keyring');
 const { ApiPromise, WsProvider } = require('@polkadot/api');
-const { u8aToHex } = require('@polkadot/util');
 const Hash = require('ipfs-only-hash');
-const { BitFlags } = require('./common');
+const { initNftBitFlags } = require('../utils/common');
 
 const env = {};
 require('dotenv').config({ processEnv: env });
@@ -61,20 +60,14 @@ async function main() {
     if (sourceCollectionMetadata?.isFrozen.eq(true))
       throw new Error('The source collection is frozen, no new attributes can be added');
   } else {
-    const roles = new BitFlags(['Issuer', 'Freezer', 'Admin']);
+    const roles = initNftBitFlags(api, 'PalletNftsCollectionRole');
     const accountRoles = (await api.query.nfts.collectionRoleOf(targetCollection, signerAddress))
       .unwrapOrDefault()
       .toNumber();
     if (!roles.has('Admin', accountRoles))
       throw new Error('The provided account must be an admin of the target collection');
 
-    const settings = new BitFlags([
-      'TransferableItems',
-      'UnlockedMetadata',
-      'UnlockedAttributes',
-      'UnlockedMaxSupply',
-      'DepositRequired',
-    ]);
+    const settings = initNftBitFlags(api, 'PalletNftsCollectionSetting');
     if (!settings.has('UnlockedAttributes', targetCollectionConfig.settings)) {
       throw new Error('The target collection is locked, no new attributes can be added');
     }
@@ -86,7 +79,7 @@ async function main() {
 
   // prepare the extrinsics
   const txs = [];
-  const attribute_cid_key = 'offchain-mint';
+  const attribute_cid_key = 'offchain-mint-snapshot';
   const attribute_cid_value = `ipfs://ipfs/${cid}`;
   const attribute_provider_key = 'offchain-mint-ipfs-provider';
   const attribute_provider_value = env.IPFS_GATEWAY;

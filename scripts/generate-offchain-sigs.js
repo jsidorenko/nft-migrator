@@ -2,7 +2,7 @@ const fs = require('fs');
 const { Keyring } = require('@polkadot/keyring');
 const { ApiPromise, WsProvider } = require('@polkadot/api');
 const { u8aToHex } = require('@polkadot/util');
-const { BitFlags } = require('./common');
+const { initNftBitFlags } = require('../utils/common');
 
 const env = {};
 require('dotenv').config({ processEnv: env });
@@ -91,6 +91,13 @@ async function main() {
       ])
       .then((result) => result.map((el) => el.unwrapOr(null)));
 
+  if (!sourceCollectionDetails) {
+    throw new Error('Source collection doesn`t exist');
+  }
+  if (!targetCollectionDetails) {
+    throw new Error('Target collection doesn`t exist');
+  }
+
   // validate the owner and the metadata are the same
   if (sourceCollectionDetails.owner.toString() !== targetCollectionDetails.owner.toString())
     throw new Error('Owners of both collections should be the same');
@@ -100,7 +107,7 @@ async function main() {
   console.info('+ Collections loaded');
 
   // validate the provided account has Admin/Issuer rights
-  const roles = new BitFlags(['Issuer', 'Freezer', 'Admin']);
+  const roles = initNftBitFlags(api, 'PalletNftsCollectionRole');
   const accountRoles = (await api.query.nfts.collectionRoleOf(targetCollection, signerAddress))
     .unwrapOrDefault()
     .toNumber();
