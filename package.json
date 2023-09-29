@@ -4,6 +4,7 @@
   "description": "A set of tools to automate migrating NFTs from the Uniques pallet to the NFTs pallet",
   "author": "jsidorenko",
   "license": "MIT",
+  "private": true,
   "dependencies": {
     "@aws-sdk/client-s3": "3.383.0",
     "@polkadot/api": "10.9.1",
