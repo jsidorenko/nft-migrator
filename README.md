@@ -7,11 +7,11 @@ A set of tools to automate the migration of NFTs from the old Uniques pallet to 
 The migration process consists of multiple steps:
 1) create a new collection in the nfts pallet using the same account that owns the old collection
 2) the metadata of both collections should be equal
-3) take snapshot of existing nfts and pre-sign them using the admin's/issuer's account
-4) a generated JSON file needs to be uploaded to IPFS
-5) store the hash of the generated JSON file in collection's attributes
+3) take a snapshot of the existing nfts and pre-sign it using the issuer's account
+4) a generated snapshot file in JSON format needs to be uploaded to IPFS
+5) store the hash of the generated snapshot file in the collection's attributes
 
-Use scripts below to automate steps 3-5.  
+Use scripts below to automate the steps 3-5.  
 For the steps 1-2 and 5 use the [web app](https://github.com/jsidorenko/nft-migrator-ui).
 
 ## Installation
